@@ -3,19 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007bff">
     <title>Color Palette Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
 </head>
 <body>
-    <div class="app-container">
-        <input type="file" id="image-uploader" accept="image/*" style="display: none;">
-        <label for="image-uploader" class="upload-label">Upload Image</label>
-        <div id="image-preview-container">
-            <img id="image-preview" src="" alt="Image Preview">
-        </div>
-        <div id="palette-container"></div>
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">🎨</div>
+                <div>
+                    <h1>PicColors Studio</h1>
+                    <p>Convierte tus imágenes en tableros profesionales de color.</p>
+                </div>
+            </div>
+            <div class="header-meta">
+                <span class="badge">PWA</span>
+                <span class="badge badge--accent">Beta</span>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="panel panel--source">
+                <input type="file" id="image-uploader" accept="image/*" style="display: none;">
+                <label for="image-uploader" class="upload-label">Subir imagen</label>
+
+                <div id="image-preview-container">
+                    <p id="dropzone-instructions">Arrastra una imagen o haz clic en “Subir imagen” para comenzar.</p>
+                    <img id="image-preview" src="" alt="Vista previa de la imagen">
+                    <div id="loading-indicator" class="hidden" role="status" aria-live="polite">
+                        <div class="spinner" aria-hidden="true"></div>
+                        <p id="loading-text">Procesando imagen…</p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control">
+                        <span>Colores</span>
+                        <select id="color-count" aria-label="Cantidad de colores a generar">
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5" selected>5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </label>
+                    <label class="control">
+                        <span>Formato</span>
+                        <select id="color-format" aria-label="Formato de color a mostrar">
+                            <option value="hex">HEX</option>
+                            <option value="rgb">RGB</option>
+                            <option value="hsl">HSL</option>
+                        </select>
+                    </label>
+                </div>
+            </section>
+
+            <section class="panel panel--palette">
+                <header class="panel-heading">
+                    <h2>Paleta generada</h2>
+                    <p>Haz clic para copiar el valor, revisa formatos y nombres sugeridos para cada tono.</p>
+                </header>
+                <div id="palette-container" class="palette-grid"></div>
+            </section>
+
+            <section class="panel panel--insights">
+                <header class="panel-heading">
+                    <h2>Insights de contraste</h2>
+                    <p>Te proponemos combinaciones accesibles y mejores usos para cada color.</p>
+                </header>
+                <div id="insights-container" class="insights-grid"></div>
+            </section>
+        </main>
     </div>
+
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
     <script src="libs/color-thief.umd.js"></script>
     <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch((error) => {
+                    console.error('Service worker registration failed:', error);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
