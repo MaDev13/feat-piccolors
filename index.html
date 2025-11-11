@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <input type="file" id="image-uploader" accept="image/*" style="display: none;">
+        <label for="image-uploader" class="upload-label">Upload Image</label>
+        <div id="image-preview-container">
+            <img id="image-preview" src="" alt="Image Preview">
+        </div>
+        <div id="palette-container"></div>
+    </div>
+    <script src="libs/color-thief.umd.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
